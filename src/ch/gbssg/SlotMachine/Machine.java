@@ -36,6 +36,7 @@ public class Machine extends Application{
         
         StackPane root = new StackPane();
         root.getChildren().add(btn);
+        primaryStage.setMaximized(true);
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
 	}
