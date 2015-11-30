@@ -64,7 +64,7 @@ public class MotorDriver implements GpioPinListener, MotorDriverIfc {
 	
 	private void Reset() {
 		for (int i = 0; i < _gpioPins.length; i++) {
-			_gpioPins[i].setMode(PinMode.PWM_OUTPUT);
+			_gpioPins[i].setMode(PinMode.PWM_OUTPUT); // TODO check if correct
 			_gpioPins[i].setPullResistance(PinPullResistance.PULL_DOWN);
 		}
 	}
@@ -73,7 +73,7 @@ public class MotorDriver implements GpioPinListener, MotorDriverIfc {
 		Reset();
 	}
 	
-	private void TurnAsync(int degree, TurnRotation rotation) {
+	public void TurnAsync(int degree, TurnRotation rotation) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
