@@ -20,7 +20,7 @@ import com.pi4j.io.gpio.event.GpioPinListener;
  * @version 1.0
  */
 public class MotorDriver implements GpioPinListener, MotorDriverIfc {
-	private GpioPin[] _gpioPins;
+	private GpioPin[] _gpioPins = new GpioPin[4];
 
     private final PinPullResistance[][] _fullStepSequence = {
             {PinPullResistance.PULL_UP, PinPullResistance.PULL_DOWN, PinPullResistance.PULL_DOWN, PinPullResistance.PULL_UP},
@@ -64,7 +64,7 @@ public class MotorDriver implements GpioPinListener, MotorDriverIfc {
 	
 	private void Reset() {
 		for (int i = 0; i < _gpioPins.length; i++) {
-			_gpioPins[i].setMode(PinMode.PWM_OUTPUT); // TODO check if correct
+			_gpioPins[i].setMode(PinMode.DIGITAL_OUTPUT); // TODO check if correct
 			_gpioPins[i].setPullResistance(PinPullResistance.PULL_DOWN);
 		}
 	}
