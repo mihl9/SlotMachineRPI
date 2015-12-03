@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
+import com.pi4j.io.gpio.RaspiPin;
+
 import java.util.Map.Entry;
 
 import ch.gbssg.SlotMachine.controls.BarellImage;
@@ -13,6 +16,7 @@ import ch.gbssg.SlotMachine.games.LibertyBell;
 import ch.gbssg.SlotMachine.io.coin.CoinAcceptor;
 import ch.gbssg.SlotMachine.io.coin.CoinAcceptorListener;
 import ch.gbssg.SlotMachine.io.motor.MotorDriver;
+import ch.gbssg.SlotMachine.io.motor.TurnRotation;
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.collections.MapChangeListener;
@@ -43,23 +47,23 @@ public class Machine extends Application implements CoinAcceptorListener{
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Hello World!");        
 		//roll.iconsProperty().get().put("ass", new BarellImage("/7.png"));
-        //this.coinAcceptor = new CoinAcceptor(RaspiPin.GPIO_24, RaspiPin.GPIO_26);
-        //this.motor = new MotorDriver(RaspiPin.GPIO_19, RaspiPin.GPIO_13, RaspiPin.GPIO_16, RaspiPin.GPIO_12);
+        this.coinAcceptor = new CoinAcceptor(RaspiPin.GPIO_05, RaspiPin.GPIO_25);
+        this.motor = new MotorDriver(RaspiPin.GPIO_24, RaspiPin.GPIO_23, RaspiPin.GPIO_27, RaspiPin.GPIO_26);
         
-        //this.motor.TurnAsync(5, TurnRotation.Close);
-        //this.coinAcceptor.registerListener(this);
+        this.coinAcceptor.registerListener(this);
         
 		LibertyBell game = new LibertyBell();
 
         primaryStage.setMaximized(true);
         primaryStage.setScene(new Scene(game.getContent(), 300, 250));
         primaryStage.show();
+        System.out.println("Started");
 	}
 
 	@Override
-	public void receiveCoin(int value) {
+	public void receiveCoin(float value) {
 		// TODO Auto-generated method stub
-		System.out.println(value);
-		this.txt.setText(this.txt.getText()+value);
+		System.out.println("Receive: " + value);
+		// this.motor.Open();
 	}
 }

@@ -14,5 +14,5 @@ public interface CoinAcceptorListener {
 	 * fire if coin acceptor detected a coin
 	 * @param value
 	 */
-	void receiveCoin(int value);
+	void receiveCoin(float value);
 }

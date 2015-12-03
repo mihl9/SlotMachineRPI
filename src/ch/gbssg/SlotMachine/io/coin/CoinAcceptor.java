@@ -13,6 +13,8 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinMode;
+import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
@@ -32,19 +34,29 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
  */
 public class CoinAcceptor extends TimerTask implements GpioPinListenerDigital {
 	private ArrayList<CoinAcceptorListener> listeners = new ArrayList<CoinAcceptorListener>();
-	private int tickCounter;
-	private final int WAIT_FOR_NEXT_COIN = 1500;
+	private volatile int tickCounter;
+	private final int WAIT_FOR_NEXT_COIN = 2500;
 	private volatile int timerHandler;
-	
+	GpioPinDigitalInput coinPin;
 	
 	public CoinAcceptor(Pin pin1, Pin pin2) {
 		GpioController gpioController = GpioFactory.getInstance();
 		
-		GpioPinDigitalInput coinPin = gpioController.provisionDigitalInputPin(pin1);
-		coinPin.addListener(this);
+		coinPin = gpioController.provisionDigitalInputPin(pin1, PinPullResistance.PULL_DOWN);
+		
+		// wait for init coin controller
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		Timer timer = new Timer();
 		timer.schedule(this, 0, 1); // interval 1ms
+		
+		coinPin.addListener(this);
 	}
 	
 	
@@ -54,12 +66,11 @@ public class CoinAcceptor extends TimerTask implements GpioPinListenerDigital {
 
 	@Override
 	public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg) {
-		// TODO: check if correct
-		if (arg.getState() == PinState.LOW) {
+		if (arg.getState() == PinState.HIGH) {
 			tickCounter++;
 			// reset waiting handler
 			timerHandler = WAIT_FOR_NEXT_COIN;
-			System.out.println("coin");
+			System.out.println("Tick: " + tickCounter);
 		}
 	}
 
@@ -71,7 +82,7 @@ public class CoinAcceptor extends TimerTask implements GpioPinListenerDigital {
 		
 		if ((timerHandler <= 0) && tickCounter > 0) {
 			for (CoinAcceptorListener listener : listeners) {
-				listener.receiveCoin(tickCounter / 2);
+				listener.receiveCoin(tickCounter / 2f);
 			}
 			tickCounter = 0;
 		}
