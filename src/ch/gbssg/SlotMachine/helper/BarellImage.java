@@ -1,27 +1,20 @@
-package ch.gbssg.SlotMachine.controls;
-
-import java.io.InputStream;
+package ch.gbssg.SlotMachine.helper;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.image.Image;
 
-public class BarellImage extends Image {
-	public BarellImage(InputStream is) {
-		super(is);	
-	}
-	
-	public BarellImage(String arg0) {
-		super(arg0);
-	}
-
+public class BarellImage{
 	private DoubleProperty x = new SimpleDoubleProperty();
 	private DoubleProperty y = new SimpleDoubleProperty();
 	private BooleanProperty visible = new SimpleBooleanProperty();
 	
-	
+	public BarellImage(){
+		setX(0);
+		setY(0);
+		setVisible(false);
+	}
 
 	public DoubleProperty X(){
 		return this.x;

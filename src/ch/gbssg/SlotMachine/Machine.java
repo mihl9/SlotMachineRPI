@@ -10,9 +10,9 @@ import com.pi4j.io.gpio.RaspiPin;
 
 import java.util.Map.Entry;
 
-import ch.gbssg.SlotMachine.controls.BarellImage;
-import ch.gbssg.SlotMachine.controls.BarellRoll;
 import ch.gbssg.SlotMachine.games.LibertyBell;
+import ch.gbssg.SlotMachine.helper.BarellImage;
+import ch.gbssg.SlotMachine.helper.BarellRoll;
 import ch.gbssg.SlotMachine.io.coin.CoinAcceptor;
 import ch.gbssg.SlotMachine.io.coin.CoinAcceptorListener;
 import ch.gbssg.SlotMachine.io.motor.MotorDriver;
@@ -46,14 +46,13 @@ public class Machine extends Application implements CoinAcceptorListener{
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Hello World!");        
-		//roll.iconsProperty().get().put("ass", new BarellImage("/7.png"));
         this.coinAcceptor = new CoinAcceptor(RaspiPin.GPIO_05, RaspiPin.GPIO_25);
         this.motor = new MotorDriver(RaspiPin.GPIO_24, RaspiPin.GPIO_23, RaspiPin.GPIO_27, RaspiPin.GPIO_26);
         
         this.coinAcceptor.registerListener(this);
         
-		LibertyBell game = new LibertyBell();
-
+		LibertyBell game = new LibertyBell(this.motor);
+		this.coinAcceptor.registerListener(game);
         primaryStage.setMaximized(true);
         primaryStage.setScene(new Scene(game.getContent(), 300, 250));
         primaryStage.show();
@@ -64,6 +63,6 @@ public class Machine extends Application implements CoinAcceptorListener{
 	public void receiveCoin(float value) {
 		// TODO Auto-generated method stub
 		System.out.println("Receive: " + value);
-		// this.motor.Open();
+		//this.motor.Close();
 	}
 }

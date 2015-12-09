@@ -6,8 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="root" prefHeight="382.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="82.0" layoutY="107.0" mnemonicParsing="false" text="Button" />
+      <Canvas fx:id="roll1" height="200.0" layoutX="256.0" layoutY="300.0" width="200.0" />
+      <Canvas fx:id="roll2" height="200.0" layoutX="512.0" layoutY="300.0" width="200.0" />
+      <Canvas fx:id="roll3" height="200.0" layoutX="768.0" layoutY="300.0" width="200.0" />
+      <Label fx:id="lbPoints" layoutX="31.0" layoutY="27.0" style="-fx-font-size: 30;" text="0 Punkte" textAlignment="RIGHT" />
    </children>
 </AnchorPane>
