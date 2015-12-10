@@ -141,7 +141,7 @@ public class LibertyBell implements CoinAcceptorListener, BellManagerListener {
 	}
 	
 	private void finishGame() {
-		if (Points >= 600) {
+		if (Points >= 1000) {
 			motor.Open();
 			motor.Close();
 			
