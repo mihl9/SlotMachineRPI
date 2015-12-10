@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Map;
 import java.util.Map.Entry;
 
+import ch.gbssg.SlotMachine.games.BellListener;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.MapProperty;
@@ -23,8 +24,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 
 
-public class BarellRoll implements ChangeListener<String>{
+public class BarellRoll  {
 	private Canvas canvas;
+	
+	public volatile boolean isFinish;
+	
+	private ArrayList<BellListener> listeners;
 	
 	private MapProperty<String, Image> icons;
 	private DoubleProperty animationLenght;
@@ -37,20 +42,33 @@ public class BarellRoll implements ChangeListener<String>{
 	private double currentOffset = 0;
 	private double pathDone = 0;
 	private double animationPath = 0;
+	private String oldValue;
+	
 	private BarellImage[] imageSettings = new BarellImage[0];
 	
-	public BarellRoll(Canvas canvas){
+	public BarellRoll(Canvas canvas, Map<String, Image> images){
+		this.listeners = new ArrayList<>();
+		this.isFinish = false;
 		this.canvas = canvas;
 		this.icons = new SimpleMapProperty<String, Image>();
 		this.animationLenght = new SimpleDoubleProperty();
 		this.animationSpeed = new SimpleDoubleProperty();
 		this.selectedIcon = new SimpleStringProperty();
 		this.icons.setValue(FXCollections.observableMap(new HashMap<String,Image>()));
-		
+		this.iconsProperty().get().putAll(images);
 		this.setAnimationLenght(3);
 		this.setAnimationSpeed(20);
-		this.addListeners();
         
+	  List<String> keys = new ArrayList<String>(icons.keySet());
+		if(imageSettings.length!=keys.size()){
+			this.imageSettings = new BarellImage[keys.size()];
+			int i = 0;
+			while( i < imageSettings.length){
+				imageSettings[i] = new BarellImage();
+				i++;
+			}
+		}
+			
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -59,6 +77,10 @@ public class BarellRoll implements ChangeListener<String>{
         };
         
         timer.start();
+	}
+	
+	public void registerListener(BellListener listener) {
+		listeners.add(listener);
 	}
 	
 	public MapProperty<String, Image> iconsProperty() {
@@ -94,7 +116,7 @@ public class BarellRoll implements ChangeListener<String>{
 	}
 	
 	public void setSelectedIcon(String key){
-		this.selectedIcon.set("");
+		oldValue = this.selectedIcon.get();
 		this.selectedIcon.set(key);
 	}
 	
@@ -102,53 +124,36 @@ public class BarellRoll implements ChangeListener<String>{
 		return this.selectedIcon.get();
 	}
 	
-	public void doRoll(){
+	public void doRoll() {
 		//this.icons.values().toArray();
 		List<String> keys = new ArrayList<String>(this.icons.keySet());
 		
 		int rand = (int) Math.floor(Math.random() * keys.size());
-		this.setSelectedIcon(keys.get(rand));
+		setSelectedIcon(keys.get(rand));
+		start();
 	}
-	
-	private void addListeners(){
-		this.selectedIcon.addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				int from = 0, 
-						to = -1;
-					List<String> keys = new ArrayList<String>(icons.keySet());
-					for (int i = 0; i < keys.size(); i++) {
-						if (keys.get(i)==oldValue){
-							from = i;
-						}
-						if (keys.get(i)==newValue){
-							to = i;
-						}
-					}
 
-					if(from >= 0 && to >=0){
-						doAnimation(from, to);
-					}				
+	
+	public void start() {
+		int from = 0, to = -1;
+			List<String> keys = new ArrayList<String>(icons.keySet());
+			for (int i = 0; i < keys.size(); i++) {
+				if (keys.get(i)==oldValue){
+					from = i;
+				}
+				if (keys.get(i)==selectedIcon.get()){
+					to = i;
+				}
 			}
-		});
+
+			if(from >= 0 && to >=0){
+				doAnimation(from, to);
+			}			
 	}
-	
-	@Override
-	public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-		// TODO Auto-generated method stub
 		
-	}
-	
 	private void doAnimation(int from, int to){
 		List<String> keys = new ArrayList<String>(this.icons.keySet());
-		if(imageSettings.length!=keys.size()){
-			this.imageSettings = new BarellImage[keys.size()];
-			int i = 0;
-			while( i < imageSettings.length){
-				imageSettings[i] = new BarellImage();
-				i++;
-			}
-		}
+		
 		this.imageSettings[from].setX(0);
 		this.imageSettings[from].setY(0);
 		this.imageSettings[from].setVisible(true);
@@ -174,6 +179,7 @@ public class BarellRoll implements ChangeListener<String>{
 	private void move(){
 		List<String> keys = new ArrayList<String>(this.icons.keySet());
 		if(pathDone < animationPath){
+			isFinish = false;
 			if(this.imageSettings[pos].getY()>=this.canvas.getHeight()){
 				pathDone = pathDone - (this.imageSettings[pos].getY()-this.canvas.getHeight());
 				this.imageSettings[pos].setX(0);
@@ -199,7 +205,11 @@ public class BarellRoll implements ChangeListener<String>{
 			this.imageSettings[next].setVisible(true);
 			pathDone += this.getAnimationSpeed();
 		}else{
-			
+			isFinish = true;
+		}
+		
+		for (BellListener listener : listeners) {
+			listener.notifyByStep(pathDone, this);
 		}
 	}
 	
@@ -207,14 +217,11 @@ public class BarellRoll implements ChangeListener<String>{
 		this.move();
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-        
 		List<String> keys = new ArrayList<String>(icons.keySet());
 		for (int i = 0; i < keys.size(); i++) {
 			if(this.imageSettings[i].getVisible()){
 				gc.drawImage(this.icons.get(keys.get(i)), this.imageSettings[i].getX(), this.imageSettings[i].getY(), this.canvas.getWidth(), this.canvas.getHeight());
 			}
 		}
-	}
-	
-	
+	}	
 }

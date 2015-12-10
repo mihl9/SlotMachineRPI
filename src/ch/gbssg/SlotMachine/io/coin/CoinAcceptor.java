@@ -35,7 +35,7 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 public class CoinAcceptor extends TimerTask implements GpioPinListenerDigital {
 	private ArrayList<CoinAcceptorListener> listeners = new ArrayList<CoinAcceptorListener>();
 	private volatile int tickCounter;
-	private final int WAIT_FOR_NEXT_COIN = 2500;
+	private final int WAIT_FOR_NEXT_COIN = 3001;
 	private volatile int timerHandler;
 	GpioPinDigitalInput coinPin;
 	
@@ -78,6 +78,12 @@ public class CoinAcceptor extends TimerTask implements GpioPinListenerDigital {
 	public void run() {
 		if (timerHandler > 0) {
 			timerHandler--;
+		}
+		
+		if (timerHandler % 1000 == 0) {
+			for (CoinAcceptorListener listener : listeners) {
+				listener.timerHandlerChanged(timerHandler / 1000);
+			}
 		}
 		
 		if ((timerHandler <= 0) && tickCounter > 0) {

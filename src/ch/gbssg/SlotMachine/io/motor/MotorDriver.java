@@ -80,32 +80,26 @@ public class MotorDriver implements GpioPinListener, MotorDriverIfc {
 	}
 	
 	public void TurnAsync(int degree, TurnRotation rotation) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				int steps = (int)Math.ceil(degree / 0.1767478397486253d);
-				int counter = 0;
-				
-				while (counter < steps) {
-					for (int j = 0; j < 4; j++) {
-						for (int i = 0; i < 4; i++) {
-							_gpioPins[i].setState(_fullStepSequence[rotation == TurnRotation.Close ? i : 3 - i][j]);
-						}
-						
-						try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-						}
-						counter++;
-						
-						if (counter == steps) {
-							break;
-						}
-					}
+		int steps = (int)Math.ceil(degree / 0.1767478397486253d);
+		int counter = 0;
+		
+		while (counter < steps) {
+			for (int j = 0; j < 4; j++) {
+				for (int i = 0; i < 4; i++) {
+					_gpioPins[i].setState(_fullStepSequence[rotation == TurnRotation.Close ? i : 3 - i][j]);
 				}
 				
-				Stop();
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+				}
+				counter++;
+				
+				if (counter == steps) {
+					break;
+				}
 			}
-		}).start();
+		}
+		Stop();
 	}
 }

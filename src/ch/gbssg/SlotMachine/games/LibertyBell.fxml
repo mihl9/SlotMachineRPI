@@ -11,6 +11,8 @@
       <Canvas fx:id="roll1" height="200.0" layoutX="256.0" layoutY="300.0" width="200.0" />
       <Canvas fx:id="roll2" height="200.0" layoutX="512.0" layoutY="300.0" width="200.0" />
       <Canvas fx:id="roll3" height="200.0" layoutX="768.0" layoutY="300.0" width="200.0" />
-      <Label fx:id="lbPoints" layoutX="31.0" layoutY="27.0" style="-fx-font-size: 30;" text="0 Punkte" textAlignment="RIGHT" />
+      <Label fx:id="lbPoints" layoutX="31.0" layoutY="27.0" style="-fx-font-size: 30;" text="Punkte: 0" textAlignment="RIGHT" />
+      <Label fx:id="lbRounds" layoutX="31.0" layoutY="70.0" style="-fx-font-size: 30;" text="Runde: 0" textAlignment="RIGHT" />
+      <Label fx:id="lbTimer" layoutX="31.0" layoutY="100.0" style="-fx-font-size: 30;" text="" textAlignment="RIGHT" />
    </children>
 </AnchorPane>

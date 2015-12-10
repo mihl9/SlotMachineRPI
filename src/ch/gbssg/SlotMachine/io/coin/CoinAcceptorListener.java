@@ -15,4 +15,6 @@ public interface CoinAcceptorListener {
 	 * @param value
 	 */
 	void receiveCoin(float value);
+	
+	void timerHandlerChanged(int seconds);
 }

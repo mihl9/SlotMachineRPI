@@ -30,7 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Machine extends Application implements CoinAcceptorListener{
+public class Machine extends Application {
 	private TextField txt;
 	private CoinAcceptor coinAcceptor;
 	private MotorDriver motor;
@@ -49,7 +49,7 @@ public class Machine extends Application implements CoinAcceptorListener{
         this.coinAcceptor = new CoinAcceptor(RaspiPin.GPIO_05, RaspiPin.GPIO_25);
         this.motor = new MotorDriver(RaspiPin.GPIO_24, RaspiPin.GPIO_23, RaspiPin.GPIO_27, RaspiPin.GPIO_26);
         
-        this.coinAcceptor.registerListener(this);
+
         
 		LibertyBell game = new LibertyBell(this.motor);
 		this.coinAcceptor.registerListener(game);
@@ -57,12 +57,5 @@ public class Machine extends Application implements CoinAcceptorListener{
         primaryStage.setScene(new Scene(game.getContent(), 300, 250));
         primaryStage.show();
         System.out.println("Started");
-	}
-
-	@Override
-	public void receiveCoin(float value) {
-		// TODO Auto-generated method stub
-		System.out.println("Receive: " + value);
-		//this.motor.Close();
 	}
 }
