@@ -1,18 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Canvas fx:id="roll1" height="200.0" layoutX="256.0" layoutY="300.0" width="200.0" />
       <Canvas fx:id="roll2" height="200.0" layoutX="512.0" layoutY="300.0" width="200.0" />
       <Canvas fx:id="roll3" height="200.0" layoutX="768.0" layoutY="300.0" width="200.0" />
       <Label fx:id="lbPoints" layoutX="31.0" layoutY="27.0" style="-fx-font-size: 30;" text="Punkte: 0" textAlignment="RIGHT" />
       <Label fx:id="lbRounds" layoutX="31.0" layoutY="70.0" style="-fx-font-size: 30;" text="Runde: 0" textAlignment="RIGHT" />
-      <Label fx:id="lbTimer" layoutX="31.0" layoutY="100.0" style="-fx-font-size: 30;" text="" textAlignment="RIGHT" />
+      <Label fx:id="lbTimer" alignment="CENTER" layoutY="118.0" prefHeight="45.0" prefWidth="1280.0" textAlignment="RIGHT" textFill="#ffee00">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="800.0" fitWidth="800.0" layoutX="225.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Resource/board.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="rules" layoutX="225.0" layoutY="1.0" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="255.0" AnchorPane.topAnchor="1.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="288.0" layoutY="359.0" prefHeight="17.0" prefWidth="216.0" style="-fx-font-size: 30;" text="REGELN" textAlignment="CENTER" textFill="WHITE" />
+            <Text fill="#fffefe" layoutX="118.0" layoutY="412.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3 Runden = 0.50 CHF&#10;Ist das Spiel gestartet kann bis zum ende des Spiels kein Geld mehr eingeworfen werden.&#10;Den Jackpot erhält man, wenn in einem Spiel mindestens 1000 Punkte erreicht wurde." wrappingWidth="574.4765625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Label layoutX="118.0" layoutY="485.0" prefHeight="17.0" prefWidth="216.0" text="Punktetabelle" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="141.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../7.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="117.0" layoutY="539.0" text="3x" textFill="RED">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="222.0" layoutY="539.0" text="= 1000 Pt." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label layoutX="222.0" layoutY="638.0" text="= 800 Pt." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label layoutX="117.0" layoutY="638.0" text="3x" textFill="RED">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="140.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../banana.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="336.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../citron.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="308.0" layoutY="638.0" text="3x" textFill="#fc0000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="422.0" layoutY="638.0" text="= 600 Pt." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label layoutX="420.0" layoutY="539.0" text="= 400 Pt." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label layoutX="307.0" layoutY="539.0" text="3x" textFill="#fc0000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="335.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../grape.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="531.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../melon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="504.0" layoutY="539.0" text="3x" textFill="#fc0000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="614.0" layoutY="539.0" text="= 200 Pt." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+         </children>
+         <effect>
+            <Blend />
+         </effect>
+      </Pane>
    </children>
 </AnchorPane>

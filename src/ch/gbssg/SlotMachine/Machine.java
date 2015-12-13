@@ -1,33 +1,14 @@
 package ch.gbssg.SlotMachine;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-
 import com.pi4j.io.gpio.RaspiPin;
 
-import java.util.Map.Entry;
-
 import ch.gbssg.SlotMachine.games.LibertyBell;
-import ch.gbssg.SlotMachine.helper.BarellImage;
-import ch.gbssg.SlotMachine.helper.BarellRoll;
 import ch.gbssg.SlotMachine.io.coin.CoinAcceptor;
-import ch.gbssg.SlotMachine.io.coin.CoinAcceptorListener;
 import ch.gbssg.SlotMachine.io.motor.MotorDriver;
-import ch.gbssg.SlotMachine.io.motor.TurnRotation;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Machine extends Application {
@@ -54,7 +35,9 @@ public class Machine extends Application {
 		LibertyBell game = new LibertyBell(this.motor);
 		this.coinAcceptor.registerListener(game);
         primaryStage.setMaximized(true);
+        
         primaryStage.setScene(new Scene(game.getContent(), 300, 250));
+        primaryStage.getScene().setCursor(Cursor.NONE);
         primaryStage.show();
         System.out.println("Started");
 	}
