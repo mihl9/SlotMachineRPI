@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -39,6 +40,16 @@ public class LibertyBell implements CoinAcceptorListener, BellManagerListener {
 	@FXML
 	private Canvas roll3;
 
+	@FXML
+	private ImageView img7;
+	@FXML
+	private ImageView imgBanana;
+	@FXML
+	private ImageView imgCitron;
+	@FXML
+	private ImageView imgGrape;
+	@FXML
+	private ImageView imgMelon;
 	private BellManager manger;
 	
 	private int avRounds = 0;
@@ -73,6 +84,12 @@ public class LibertyBell implements CoinAcceptorListener, BellManagerListener {
 			          BackgroundSize.DEFAULT);
 		//set background
 		rules.setBackground(new Background(myRulesBI));
+		//set icons
+		this.img7.setImage(new Image("/7.png"));
+		this.imgBanana.setImage(new Image("/banana.png"));
+		this.imgCitron.setImage(new Image("/citron.png"));
+		this.imgGrape.setImage(new Image("/grape.png"));
+		this.imgMelon.setImage(new Image("/melon.png"));
 		manger = new BellManager(roll1, roll2, roll3, this);
 		
 	}

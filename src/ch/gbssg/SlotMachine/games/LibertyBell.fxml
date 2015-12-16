@@ -40,7 +40,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="141.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img7" fitHeight="78.0" fitWidth="91.0" layoutX="141.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../7.png" />
                </image>
@@ -63,12 +63,12 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="140.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgBanana" fitHeight="78.0" fitWidth="91.0" layoutX="140.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../banana.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="336.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgCitron" fitHeight="78.0" fitWidth="91.0" layoutX="336.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../citron.png" />
                </image>
@@ -91,12 +91,12 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="335.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgGrape" fitHeight="78.0" fitWidth="91.0" layoutX="335.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../grape.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="531.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgMelon" fitHeight="78.0" fitWidth="91.0" layoutX="531.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../melon.png" />
                </image>
